@@ -41,7 +41,9 @@ public class App {
             }
         }
         for (int i = 0; i < correctWord.length(); i++) {
-            if (status[i] == 2) continue;
+            if (status[i] == 2) {
+                continue;
+            }
             for (int j = 0; j < correctWord.length(); j++) {
                 if (!used[j] && guess.charAt(i) == correctWord.charAt(j)) {
                     status[i] = 1;
