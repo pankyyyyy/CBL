@@ -12,8 +12,9 @@ public class App {
             if (guess.length() != correctWord.length()) {
                 System.out.println("Incorrect length. Please try again.");
                 guess = scanner.next().toLowerCase();
+                continue;
             }
-            int[] status = checkGuess(correctWord, guess);
+            int[] status = GuessChecker.checkGuess(correctWord, guess);
             String result = "";
             for (int i = 0; i < status.length; i++) {
                 if (status[i] == 2) {
@@ -29,29 +30,5 @@ public class App {
             guess = scanner.next().toLowerCase();
         }
         System.out.println("Congratulations! You guessed the word correctly.");
-    }
-
-    static int[] checkGuess(String correctWord, String guess) {
-        int[] status = new int[correctWord.length()];
-        boolean[] used = new boolean[correctWord.length()];
-        for (int i = 0; i < correctWord.length(); i++) {
-            if (guess.charAt(i) == correctWord.charAt(i)) {
-                status[i] = 2;
-                used[i] = true;
-            }
-        }
-        for (int i = 0; i < correctWord.length(); i++) {
-            if (status[i] == 2) {
-                continue;
-            }
-            for (int j = 0; j < correctWord.length(); j++) {
-                if (!used[j] && guess.charAt(i) == correctWord.charAt(j)) {
-                    status[i] = 1;
-                    used[j] = true;
-                    break;
-                }
-            }
-        }
-        return status;
     }
 }
