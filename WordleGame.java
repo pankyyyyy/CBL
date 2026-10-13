@@ -26,7 +26,7 @@ public class WordleGame {
     }
 
     public boolean isValidGuess(String guess) {
-        if (guess.length() == correctWord.length()) {
+        if (guess.length() == correctWord.length() && isAllLetters(guess)) {
             return true;
         }
         return false;
@@ -43,4 +43,18 @@ public class WordleGame {
     public int NumberOfAttempts() {
         return attempts;
     } 
+
+    public boolean isAllLetters(String guess) {
+        for (int i = 0; i < guess.length(); i++) {
+            char c = guess.charAt(i);
+            if (c < 'a' || c > 'z') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String getCorrectWord() {
+        return correctWord;
+    }
 }

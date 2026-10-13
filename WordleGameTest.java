@@ -18,9 +18,17 @@ public class WordleGameTest {
     }
 
     @Test
-    void dontCountInvalidGuesses() {
+    void dontCountInvalidGuessesV1() {
         WordleGame game = new WordleGame("plane");
         game.submitGuess("rock");
+        int expected = 6;
+        assertEquals(expected, game.getAttemptsLeft());
+    }
+
+    @Test
+    void dontCountInvalidGuessesV2() {
+        WordleGame game = new WordleGame("plane");
+        game.submitGuess("appl*");
         int expected = 6;
         assertEquals(expected, game.getAttemptsLeft());
     }
@@ -40,4 +48,13 @@ public class WordleGameTest {
         }
         assertEquals(GameState.LOST, game.getState());
     }
+
+    @Test
+    void gameContinues() {
+        WordleGame game = new WordleGame("plane");
+        game.submitGuess("plant");
+        assertEquals(GameState.IN_PROGRESS, game.getState());
+    }
+
+
 }
