@@ -9,7 +9,7 @@ public class CBLApp {
     private WordleGame game;
     private JLabel[][] cells;
     private JFrame frame;
-    private int row = 0;
+    private int row = 0;              
     private int col = 0;
 
     public CBLApp() throws IOException {
@@ -41,7 +41,7 @@ public class CBLApp {
         board.setFocusable(true);
         board.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped(KeyEvent e)  {
                 if (game.getState() != GameState.IN_PROGRESS) return;
                 char ch = e.getKeyChar();
                 if (Character.isLetter(ch) && col < cols) {
@@ -49,7 +49,11 @@ public class CBLApp {
                 } else if (ch == '\b' && col > 0) {
                     cells[row][--col].setText("");
                 } else if (ch == '\n') {
-                    submit();
+                    try {
+                        submit();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         });
@@ -57,13 +61,13 @@ public class CBLApp {
         frame.setVisible(true);
     }
 
-    private void submit() {
+    private void submit() throws IOException {
         StringBuilder sb = new StringBuilder();
         for (JLabel c : cells[row]) sb.append(c.getText());
 
         int[] status = game.submitGuess(sb.toString().toLowerCase());
         if (status == null) {
-            JOptionPane.showMessageDialog(frame, "Not enough letters.");
+            JOptionPane.showMessageDialog(frame, "Not a valid guess.");
             return;
         }
 

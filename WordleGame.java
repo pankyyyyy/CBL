@@ -9,12 +9,13 @@ public class WordleGame {
     private int attemptsLeft = 6;
     private String correctWord; 
     private int attempts = 0;
+    public static Set<String> guesses = new HashSet<>();
     public static List<String> answers = new ArrayList<>();
     public WordleGame(String correctWord) {
         this.correctWord = correctWord;
     }
 
-    public int[] submitGuess(String guess) {
+    public int[] submitGuess(String guess) throws IOException {
         if (state == GameState.IN_PROGRESS) {
             if (isValidGuess(guess)) {
                 int[] status = GuessChecker.checkGuess(correctWord, guess);
@@ -30,9 +31,16 @@ public class WordleGame {
         }   
         return null;
     }
+    public boolean check(String guess) throws IOException {
+        loadGuesses("words.txt");
+        if (guesses.contains(guess)) {
+            return true;
+        }
+        return false;
+    }
 
-    public boolean isValidGuess(String guess) {
-        if (guess.length() == correctWord.length() && isAllLetters(guess)) {
+    public boolean isValidGuess(String guess) throws IOException {
+        if (guess.length() == correctWord.length() && isAllLetters(guess) && check(guess)) {
             return true;
         }
         return false;
@@ -71,6 +79,18 @@ public class WordleGame {
                 answers.add(line);
             }
         }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadGuesses(String guess) throws IOException {
+        try {
+            for (String line : Files.readAllLines(Path.of(guess))) {
+              if (!line.isEmpty()) {
+                guesses.add(line);
+            }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
