@@ -1,4 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
 
 public class WordleGameTest {
@@ -10,7 +13,7 @@ public class WordleGameTest {
     }
 
     @Test
-    void decreaseAttemptsLeft() {
+    void decreaseAttemptsLeft() throws IOException {
         WordleGame game = new WordleGame("crane");
         game.submitGuess("plane");
         int expected = 5;
@@ -18,7 +21,7 @@ public class WordleGameTest {
     }
 
     @Test
-    void dontCountInvalidGuessesV1() {
+    void dontCountInvalidGuessesV1() throws IOException {
         WordleGame game = new WordleGame("plane");
         game.submitGuess("rock");
         int expected = 6;
@@ -26,7 +29,7 @@ public class WordleGameTest {
     }
 
     @Test
-    void dontCountInvalidGuessesV2() {
+    void dontCountInvalidGuessesV2() throws IOException {
         WordleGame game = new WordleGame("plane");
         game.submitGuess("appl*");
         int expected = 6;
@@ -34,14 +37,14 @@ public class WordleGameTest {
     }
 
     @Test
-    void gameWon() {
+    void gameWon() throws IOException {
         WordleGame game = new WordleGame("plane");
         game.submitGuess("plane");
         assertEquals(GameState.WON, game.getState());
     }
 
     @Test
-    void gameLost() {
+    void gameLost() throws IOException {
         WordleGame game = new WordleGame("plane");
         for (int i = 0; i < 6; i++) {
             game.submitGuess("audio");
@@ -50,7 +53,7 @@ public class WordleGameTest {
     }
 
     @Test
-    void gameContinues() {
+    void gameContinues() throws IOException {
         WordleGame game = new WordleGame("plane");
         game.submitGuess("plant");
         assertEquals(GameState.IN_PROGRESS, game.getState());

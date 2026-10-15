@@ -94,5 +94,5 @@ public class CBLApp {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        };
+        }
     }
