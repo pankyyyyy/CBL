@@ -1,20 +1,20 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Random;
+import java.io.IOException;
 
 public class CBLApp {
     private int rows = 6;
     private int cols;
-    private String[] WORDS = {"apple", "brave", "crane", "dream", "eagle"};
     private WordleGame game;
     private JLabel[][] cells;
     private JFrame frame;
     private int row = 0;
     private int col = 0;
 
-    public CBLApp() {
-        String word = WORDS[new Random().nextInt(WORDS.length)];
+    public CBLApp() throws IOException {
+        WordleGame.load("answers.txt");
+        String word = WordleGame.answers.get((int) (Math.random() * WordleGame.answers.size()));
         game = new WordleGame(word);
         cols = word.length();
         cells = new JLabel[rows][cols];
@@ -84,7 +84,11 @@ public class CBLApp {
         col = 0;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(CBLApp::new);
+    public static void main(String[] args) throws IOException {
+            try {
+                new CBLApp();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        };
     }
-}
